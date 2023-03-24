@@ -1,0 +1,87 @@
+@import "normalize.css";
+
+:root {
+  font-size: 10px;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+@mixin setCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  @include setCenter;
+}
+
+@mixin cardSetting($nth) {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  @if $nth == 1 {
+    width: 120rem;
+    min-width: 120rem;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 0 1rem #bebebe;
+  } @else {
+    position: absolute;
+    width: 20rem;
+    border-radius: 1rem;
+    aspect-ratio: 2 / 3;
+    box-shadow: 0 30px 50px #505050;
+    left: calc(50% + ($nth - 2) * 22rem);
+  }
+}
+
+$cardArray: (2, 3, 4);
+.card {
+  transition: 0.5s;
+  &:nth-child(1) {
+    @include cardSetting(1);
+    transition: none;
+  }
+  @each $i in $cardArray {
+    &:nth-child(#{$i}) {
+      @include cardSetting(#{$i});
+    }
+  }
+  &:nth-child(n + 5) {
+    left: calc(50% + 3 * 22rem);
+    @include cardSetting(5);
+    opacity: 0;
+  }
+}
+
+.cardGroup {
+  @include setCenter;
+  position: relative;
+}
+
+.buttonGroup {
+  @include setCenter;
+  position: absolute;
+  bottom: 5rem;
+  gap: 2rem;
+
+  .button {
+    border-radius: 50%;
+    box-shadow: 0 1px 3px #505050;
+    background-color: #6497bc;
+    display: block;
+    width: 4rem;
+    aspect-ratio: 1 / 1;
+    @include setCenter;
+    cursor: pointer;
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
